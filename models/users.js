@@ -18,6 +18,13 @@ const User = new mongoose.Schema({
   tempEphemeral: {
     type: String,
   },
+  encryptedKey: {
+    type: String,
+  },
+  files: {
+    type: Array,
+    default: [],
+  },
 });
 
 module.exports = mongoose.model('User', User);
