@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const fs = require('fs');
 const User = require('../models/users');
+const p = require('path');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -24,14 +25,15 @@ router.post('/upload', upload.single('userFile'), async (req, res) => {
     fileName: req.body.fileName,
     enc_original_name: req.body.enc_original_name,
   };
+  console.log(file);
   user.files.push(file);
   await user.save();
   res.status(200).json({ message: 'File uploaded successfully' });
 });
 
 router.get('/download', (req, res) => {
-  const path = `./uploads/${req.body.email}/${req.body.fileName}`;
-  res.download(path);
+  const path = `../uploads/${req.query.email}/${req.query.fileName}`;
+  res.sendFile(p.join(__dirname, path));
 });
 
 module.exports = router;
