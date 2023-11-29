@@ -26,6 +26,7 @@ router.post('/setEncryptedKey', async (req, res) => {
   }
 
   user.encryptedKey = encryptedKey;
+  user.mediaPassword = true;
 
   try {
     await user.save();

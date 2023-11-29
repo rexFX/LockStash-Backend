@@ -25,6 +25,10 @@ const User = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  mediaPassword: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('User', User);
