@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
+const os = require('os');
+const interfaces = os.networkInterfaces();
 
 app.use(cors());
 app.use(express.json());
@@ -29,6 +31,18 @@ mongo()
     console.log('MongoDB Connected');
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
+
+      for (let devName in interfaces) {
+        let iface = interfaces[devName];
+
+        for (let i = 0; i < iface.length; i++) {
+          let alias = iface[i];
+          if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+            console.log('You can access the server at', alias.address + ':' + PORT);
+            console.log('Make sure the devices are connected to the same network(wifi).');
+          }
+        }
+      }
     });
   })
   .catch((err) => {

@@ -22,7 +22,7 @@ router.post('/setEncryptedKey', async (req, res) => {
   const { email, encryptedKey } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
-    return res.status(400).json({ message: 'User not found' });
+    return res.status(401).json({ message: 'User not found' });
   }
 
   user.encryptedKey = encryptedKey;
